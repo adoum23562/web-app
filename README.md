@@ -64,18 +64,41 @@ Ouvrez [http://localhost:3000](http://localhost:3000)
 
 ## 🐳 Docker
 
+### Démarrage Rapide avec Docker
+
 ```bash
-# Build l'image
+# Option 1: Docker Compose (Recommandé)
+docker-compose up --build
+
+# Option 2: Docker seul
 docker build -t rwanda-ecommerce .
-
-# Lancer le conteneur
-docker run -p 3000:3000 rwanda-ecommerce
+docker run -p 3000:3000 \
+  -e NEXT_PUBLIC_SUPABASE_URL=your_url \
+  -e NEXT_PUBLIC_SUPABASE_ANON_KEY=your_key \
+  rwanda-ecommerce
 ```
 
-Avec Docker Compose:
+### Configuration
+
+Assurez-vous que `.env.local` contient vos clés Supabase. Docker Compose les chargera automatiquement.
+
+### Commandes Utiles
+
 ```bash
-docker-compose up
+# Lancer en arrière-plan
+docker-compose up -d
+
+# Voir les logs
+docker-compose logs -f
+
+# Arrêter
+docker-compose down
+
+# Rebuild complet
+docker-compose up --build --force-recreate
 ```
+
+📖 **Documentation complète** : [DOCKER_GUIDE.md](./DOCKER_GUIDE.md)
 
 ## 📁 Structure du Projet
 

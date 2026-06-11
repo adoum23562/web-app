@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  # Next.js Application
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: rwanda-ecommerce
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      # Next.js Environment
+      - NODE_ENV=production
+
+      # Supabase Configuration
+      # IMPORTANT: Replace with your actual Supabase credentials
+      - NEXT_PUBLIC_SUPABASE_URL=${NEXT_PUBLIC_SUPABASE_URL}
+      - NEXT_PUBLIC_SUPABASE_ANON_KEY=${NEXT_PUBLIC_SUPABASE_ANON_KEY}
+
+    # Optional: Mount volumes for development
+    # volumes:
+    #   - ./src:/app/src
+    #   - ./public:/app/public
+
+    # Health check
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3000/api/categories', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+    networks:
+      - rwanda-network
+
+networks:
+  rwanda-network:
+    driver: bridge
