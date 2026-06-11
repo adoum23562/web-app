@@ -80,7 +80,7 @@ export default function OrderConfirmationPage() {
           Commande non trouvée
         </h1>
         <Link href="/">
-          <Button>Retour à l'accueil</Button>
+          <Button>Retour à l&apos;accueil</Button>
         </Link>
       </div>
     );
@@ -262,7 +262,7 @@ export default function OrderConfirmationPage() {
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Link href="/">
             <Button variant="primary" size="lg">
-              Retour à l'accueil
+              Retour à l&apos;accueil
             </Button>
           </Link>
           <Link href="/products">

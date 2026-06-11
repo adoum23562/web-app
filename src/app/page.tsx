@@ -154,7 +154,7 @@ export default function Home() {
               Pourquoi Nous Choisir ?
             </h2>
             <p className="text-lg text-gray-600">
-              Une expérience d'achat exceptionnelle à chaque commande
+              Une expérience d&apos;achat exceptionnelle à chaque commande
             </p>
           </div>
 

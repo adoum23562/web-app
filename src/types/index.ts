@@ -21,6 +21,11 @@ export interface Product {
   is_active: boolean;
   created_at: string;
   updated_at: string;
+  categories?: {
+    id: string;
+    name: string;
+    slug: string;
+  };
 }
 
 export interface Customer {
