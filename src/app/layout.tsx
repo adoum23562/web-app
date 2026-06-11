@@ -1,9 +1,12 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import Header from "@/components/layout/Header";
+import Footer from "@/components/layout/Footer";
 
 export const metadata: Metadata = {
-  title: "Rwanda E-Commerce",
-  description: "Boutique en ligne au Rwanda",
+  title: "Rwanda Market - E-Commerce au Rwanda",
+  description: "Votre marketplace rwandaise de confiance. Produits de qualité, livraison rapide.",
+  keywords: ["e-commerce", "Rwanda", "boutique en ligne", "marketplace"],
 };
 
 export default function RootLayout({
@@ -13,7 +16,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr">
-      <body>{children}</body>
+      <body className="flex flex-col min-h-screen">
+        <Header />
+        <main className="flex-grow">{children}</main>
+        <Footer />
+      </body>
     </html>
   );
 }
