@@ -9,10 +9,12 @@ import { formatPrice } from '@/lib/utils';
 import Button from '@/components/ui/Button';
 import Badge from '@/components/ui/Badge';
 import Card from '@/components/ui/Card';
+import { useCart } from '@/contexts/CartContext';
 
 export default function ProductDetailPage() {
   const params = useParams();
   const slug = params.slug as string;
+  const { addToCart } = useCart();
 
   const [product, setProduct] = useState<Product | null>(null);
   const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
@@ -60,8 +62,9 @@ export default function ProductDetailPage() {
   };
 
   const handleAddToCart = () => {
-    // TODO: Implement cart functionality in Phase 4
-    alert(`Ajouté au panier: ${quantity}x ${product?.name}`);
+    if (product) {
+      addToCart(product, quantity);
+    }
   };
 
   if (loading) {

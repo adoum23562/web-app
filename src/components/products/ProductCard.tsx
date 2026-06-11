@@ -1,17 +1,24 @@
+'use client';
+
 import Link from 'next/link';
 import Image from 'next/image';
 import { Product } from '@/types';
 import { formatPrice } from '@/lib/utils';
 import Button from '@/components/ui/Button';
 import Badge from '@/components/ui/Badge';
+import { useCart } from '@/contexts/CartContext';
 
 interface ProductCardProps {
   product: Product;
-  onAddToCart?: (product: Product) => void;
 }
 
-export default function ProductCard({ product, onAddToCart }: ProductCardProps) {
+export default function ProductCard({ product }: ProductCardProps) {
+  const { addToCart } = useCart();
   const isOutOfStock = product.stock === 0;
+
+  const handleAddToCart = () => {
+    addToCart(product, 1);
+  };
 
   return (
     <div className="bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-lg transition-all duration-300 group">
@@ -68,7 +75,7 @@ export default function ProductCard({ product, onAddToCart }: ProductCardProps) 
           variant="primary"
           fullWidth
           disabled={isOutOfStock}
-          onClick={() => onAddToCart && onAddToCart(product)}
+          onClick={handleAddToCart}
         >
           {isOutOfStock ? 'Indisponible' : 'Ajouter au panier'}
         </Button>

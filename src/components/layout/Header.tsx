@@ -2,9 +2,11 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
+import { useCart } from '@/contexts/CartContext';
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { itemCount, openCart } = useCart();
 
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);
@@ -44,9 +46,9 @@ export default function Header() {
             >
               Catégories
             </Link>
-            <Link
-              href="/cart"
-              className="flex items-center space-x-1 text-gray-700 hover:text-emerald-600 font-medium transition-colors"
+            <button
+              onClick={openCart}
+              className="flex items-center space-x-1 text-gray-700 hover:text-emerald-600 font-medium transition-colors relative"
             >
               <svg
                 className="w-6 h-6"
@@ -62,10 +64,12 @@ export default function Header() {
                 />
               </svg>
               <span>Panier</span>
-              <span className="bg-emerald-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                0
-              </span>
-            </Link>
+              {itemCount > 0 && (
+                <span className="absolute -top-2 -right-2 bg-emerald-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-semibold animate-bounce">
+                  {itemCount}
+                </span>
+              )}
+            </button>
           </nav>
 
           {/* Mobile Menu Button */}
@@ -131,16 +135,20 @@ export default function Header() {
               >
                 Catégories
               </Link>
-              <Link
-                href="/cart"
+              <button
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  openCart();
+                }}
                 className="flex items-center justify-between text-gray-700 hover:text-emerald-600 font-medium py-2 px-4 rounded-lg hover:bg-gray-50 transition-colors"
-                onClick={() => setMobileMenuOpen(false)}
               >
                 <span>Panier</span>
-                <span className="bg-emerald-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                  0
-                </span>
-              </Link>
+                {itemCount > 0 && (
+                  <span className="bg-emerald-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-semibold">
+                    {itemCount}
+                  </span>
+                )}
+              </button>
             </div>
           </nav>
         )}
