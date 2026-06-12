@@ -11,7 +11,7 @@ interface ProductCardProps {
 }
 
 export default function ProductCard({ product }: ProductCardProps) {
-  const { addItem } = useCart();
+  const { addToCart } = useCart();
   const imageUrl = product.image_url || '/placeholder-product.png';
   const isOutOfStock = product.stock <= 0;
 
@@ -60,7 +60,7 @@ export default function ProductCard({ product }: ProductCardProps) {
           </span>
           <Button
             size="sm"
-            onClick={() => addItem(product)}
+            onClick={() => addToCart(product)}
             disabled={isOutOfStock}
             className={`rounded-full w-10 h-10 p-0 flex items-center justify-center transition-all duration-300 ${isOutOfStock ? 'opacity-50 cursor-not-allowed' : 'group-hover:bg-primary-600 group-hover:text-white'}`}
             aria-label="Ajouter au panier"
