@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useParams } from 'next/navigation';
+import { useParams, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { formatPrice, formatDate } from '@/lib/utils';
@@ -40,14 +40,17 @@ interface Order {
 
 export default function OrderConfirmationPage() {
   const params = useParams();
+  const searchParams = useSearchParams();
   const orderId = params.id as string;
+  const accessToken = searchParams.get('token');
   const [order, setOrder] = useState<Order | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchOrder = async () => {
       try {
-        const response = await fetch(`/api/orders/${orderId}`);
+        const query = accessToken ? `?token=${encodeURIComponent(accessToken)}` : '';
+        const response = await fetch(`/api/orders/${orderId}${query}`);
         const data = await response.json();
 
         if (response.ok) {
@@ -60,15 +63,17 @@ export default function OrderConfirmationPage() {
       }
     };
 
-    if (orderId) {
+    if (orderId && accessToken) {
       fetchOrder();
+    } else {
+      setLoading(false);
     }
-  }, [orderId]);
+  }, [orderId, accessToken]);
 
   if (loading) {
     return (
-      <div className="min-h-screen flex justify-center items-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
+      <div role="status" aria-live="polite" aria-label="Chargement de la commande" className="min-h-screen flex justify-center items-center">
+        <div aria-hidden="true" className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600" />
       </div>
     );
   }
@@ -76,7 +81,7 @@ export default function OrderConfirmationPage() {
   if (!order) {
     return (
       <div className="min-h-screen flex flex-col justify-center items-center py-20">
-        <h1 className="text-3xl font-bold text-gray-800 mb-4">
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
           Commande non trouvée
         </h1>
         <Link href="/">
@@ -87,25 +92,25 @@ export default function OrderConfirmationPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12">
+    <div className="min-h-screen bg-gray-50 dark:bg-dark-bg py-12">
       <div className="container mx-auto px-4 max-w-4xl">
         {/* Success Message */}
-        <Card className="mb-8 bg-gradient-to-r from-green-50 to-emerald-50 border-green-200">
+        <Card className="mb-8 bg-primary-50 dark:bg-primary-900/20 border-primary-200 dark:border-primary-800">
           <div className="text-center">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-green-500 rounded-full mb-4">
-              <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-primary-500 rounded-full mb-4">
+              <svg aria-hidden="true" className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
               </svg>
             </div>
-            <h1 className="text-3xl font-bold text-gray-800 mb-2">
-              Commande confirmée !
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+              Commande confirmée
             </h1>
-            <p className="text-lg text-gray-600 mb-4">
+            <p className="text-lg text-gray-700 dark:text-gray-300 mb-4">
               Merci pour votre commande. Nous avons bien reçu votre demande.
             </p>
-            <div className="inline-flex items-center gap-2 bg-white px-4 py-2 rounded-lg border border-green-200">
-              <span className="text-gray-600">Numéro de commande:</span>
-              <span className="text-xl font-bold text-primary-600">
+            <div className="inline-flex items-center gap-2 bg-white dark:bg-dark-card px-4 py-2 rounded-lg border border-primary-200 dark:border-primary-800">
+              <span className="text-gray-700 dark:text-gray-300">Numéro de commande:</span>
+              <span className="text-xl font-bold text-primary-700 dark:text-primary-400">
                 {order.order_number}
               </span>
             </div>
@@ -115,22 +120,22 @@ export default function OrderConfirmationPage() {
         {/* Order Details */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
           {/* Customer Info */}
-          <Card>
-            <h2 className="text-xl font-bold text-gray-800 mb-4">
+          <Card className="dark:bg-dark-card">
+            <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
               Informations de livraison
             </h2>
-            <div className="space-y-2 text-gray-600">
+            <div className="space-y-2 text-gray-700 dark:text-gray-300">
               <div>
-                <span className="font-medium text-gray-800">Nom:</span> {order.customers.name}
+                <span className="font-medium text-gray-900 dark:text-white">Nom:</span> {order.customers.name}
               </div>
               <div>
-                <span className="font-medium text-gray-800">Email:</span> {order.customers.email}
+                <span className="font-medium text-gray-900 dark:text-white">Email:</span> {order.customers.email}
               </div>
               <div>
-                <span className="font-medium text-gray-800">Téléphone:</span> {order.customers.phone}
+                <span className="font-medium text-gray-900 dark:text-white">Téléphone:</span> {order.customers.phone}
               </div>
               <div>
-                <span className="font-medium text-gray-800">Adresse:</span>{' '}
+                <span className="font-medium text-gray-900 dark:text-white">Adresse:</span>{' '}
                 {order.customers.address}, {order.customers.city}
               </div>
             </div>
@@ -138,29 +143,29 @@ export default function OrderConfirmationPage() {
 
           {/* Order Info */}
           <Card>
-            <h2 className="text-xl font-bold text-gray-800 mb-4">
+            <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
               Détails de la commande
             </h2>
-            <div className="space-y-2 text-gray-600">
+            <div className="space-y-2 text-gray-700 dark:text-gray-300">
               <div>
-                <span className="font-medium text-gray-800">Date:</span>{' '}
+                <span className="font-medium text-gray-900 dark:text-white">Date:</span>{' '}
                 {formatDate(order.created_at)}
               </div>
               <div>
-                <span className="font-medium text-gray-800">Statut:</span>{' '}
+                <span className="font-medium text-gray-900 dark:text-white">Statut:</span>{' '}
                 <Badge variant="warning" size="sm" className="ml-2">
                   {order.status === 'pending' ? 'En attente' : order.status}
                 </Badge>
               </div>
               <div>
-                <span className="font-medium text-gray-800">Paiement:</span>{' '}
+                <span className="font-medium text-gray-900 dark:text-white">Paiement:</span>{' '}
                 <Badge variant="error" size="sm" className="ml-2">
                   {order.payment_status === 'unpaid' ? 'Non payé' : order.payment_status}
                 </Badge>
               </div>
               <div>
-                <span className="font-medium text-gray-800">Total:</span>{' '}
-                <span className="text-2xl font-bold text-primary-600">
+                <span className="font-medium text-gray-900 dark:text-white">Total:</span>{' '}
+                <span className="text-2xl font-bold text-primary-700 dark:text-primary-400">
                   {formatPrice(order.total_amount)}
                 </span>
               </div>
@@ -170,7 +175,7 @@ export default function OrderConfirmationPage() {
 
         {/* Order Items */}
         <Card className="mb-8">
-          <h2 className="text-xl font-bold text-gray-800 mb-4">
+          <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
             Articles commandés
           </h2>
           <div className="space-y-4">
@@ -189,7 +194,7 @@ export default function OrderConfirmationPage() {
                     />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center">
-                      <svg className="w-8 h-8 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg aria-hidden="true" className="w-8 h-8 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                       </svg>
                     </div>
@@ -198,14 +203,14 @@ export default function OrderConfirmationPage() {
                 <div className="flex-1">
                   <Link
                     href={`/products/${item.products.slug}`}
-                    className="font-medium text-gray-800 hover:text-primary-600"
+                    className="font-medium text-gray-900 dark:text-white hover:text-primary-700 dark:text-primary-400"
                   >
                     {item.products.name}
                   </Link>
-                  <p className="text-sm text-gray-600 mt-1">
+                  <p className="text-sm text-gray-700 dark:text-gray-300 mt-1">
                     Quantité: {item.quantity} × {formatPrice(item.unit_price)}
                   </p>
-                  <p className="text-lg font-bold text-primary-600 mt-1">
+                  <p className="text-lg font-bold text-primary-700 dark:text-primary-400 mt-1">
                     {formatPrice(item.total_price)}
                   </p>
                 </div>
@@ -215,8 +220,8 @@ export default function OrderConfirmationPage() {
 
           <div className="mt-6 pt-6 border-t border-gray-200">
             <div className="flex justify-between items-center">
-              <span className="text-xl font-semibold text-gray-800">Total</span>
-              <span className="text-3xl font-bold text-primary-600">
+              <span className="text-xl font-semibold text-gray-900 dark:text-white">Total</span>
+              <span className="text-3xl font-bold text-primary-700 dark:text-primary-400">
                 {formatPrice(order.total_amount)}
               </span>
             </div>
@@ -224,13 +229,13 @@ export default function OrderConfirmationPage() {
         </Card>
 
         {/* Next Steps */}
-        <Card className="mb-8 bg-blue-50 border-blue-200">
-          <h2 className="text-xl font-bold text-gray-800 mb-4">
+        <Card className="mb-8 bg-gray-50 dark:bg-dark-card border-gray-200 dark:border-dark-border">
+          <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
             Prochaines étapes
           </h2>
           <div className="space-y-3 text-gray-700">
             <div className="flex items-start gap-3">
-              <div className="w-6 h-6 bg-blue-500 text-white rounded-full flex items-center justify-center flex-shrink-0 text-sm font-bold">
+              <div aria-hidden="true" className="w-6 h-6 bg-primary-500 text-white rounded-full flex items-center justify-center flex-shrink-0 text-sm font-bold">
                 1
               </div>
               <p>
@@ -238,19 +243,19 @@ export default function OrderConfirmationPage() {
               </p>
             </div>
             <div className="flex items-start gap-3">
-              <div className="w-6 h-6 bg-blue-500 text-white rounded-full flex items-center justify-center flex-shrink-0 text-sm font-bold">
+              <div aria-hidden="true" className="w-6 h-6 bg-primary-500 text-white rounded-full flex items-center justify-center flex-shrink-0 text-sm font-bold">
                 2
               </div>
               <p>Notre équipe préparera votre commande dans les 24h</p>
             </div>
             <div className="flex items-start gap-3">
-              <div className="w-6 h-6 bg-blue-500 text-white rounded-full flex items-center justify-center flex-shrink-0 text-sm font-bold">
+              <div aria-hidden="true" className="w-6 h-6 bg-primary-500 text-white rounded-full flex items-center justify-center flex-shrink-0 text-sm font-bold">
                 3
               </div>
               <p>Nous vous contacterons au <strong>{order.customers.phone}</strong> pour organiser la livraison</p>
             </div>
             <div className="flex items-start gap-3">
-              <div className="w-6 h-6 bg-blue-500 text-white rounded-full flex items-center justify-center flex-shrink-0 text-sm font-bold">
+              <div aria-hidden="true" className="w-6 h-6 bg-primary-500 text-white rounded-full flex items-center justify-center flex-shrink-0 text-sm font-bold">
                 4
               </div>
               <p>Paiement à la livraison par Mobile Money ou espèces</p>

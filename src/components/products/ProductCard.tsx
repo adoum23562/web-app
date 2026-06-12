@@ -21,9 +21,9 @@ export default function ProductCard({ product }: ProductCardProps) {
   };
 
   return (
-    <div className="bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-lg transition-all duration-300 group">
+    <div className="bg-white dark:bg-dark-card rounded-lg border border-gray-200 dark:border-dark-border overflow-hidden hover:shadow-lg dark:hover:shadow-glow/10 transition-all duration-300 group">
       <Link href={`/products/${product.slug}`} className="block relative">
-        <div className="relative w-full h-64 bg-gray-100">
+        <div className="relative w-full h-64 bg-gray-100 dark:bg-dark-bg">
           {product.image_url ? (
             <Image
               src={product.image_url}
@@ -34,7 +34,7 @@ export default function ProductCard({ product }: ProductCardProps) {
             />
           ) : (
             <div className="w-full h-full flex items-center justify-center">
-              <svg className="w-16 h-16 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg aria-hidden="true" className="w-16 h-16 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
               </svg>
             </div>
@@ -49,19 +49,19 @@ export default function ProductCard({ product }: ProductCardProps) {
 
       <div className="p-4">
         <Link href={`/products/${product.slug}`}>
-          <h3 className="font-semibold text-gray-800 hover:text-primary-600 transition-colors line-clamp-2 mb-2">
+          <h3 className="font-semibold text-gray-900 dark:text-white hover:text-primary-700 dark:hover:text-primary-400 transition-colors line-clamp-2 mb-2">
             {product.name}
           </h3>
         </Link>
 
         {product.description && (
-          <p className="text-sm text-gray-600 line-clamp-2 mb-3">
+          <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-2 mb-3">
             {product.description}
           </p>
         )}
 
         <div className="flex items-center justify-between mb-3">
-          <span className="text-2xl font-bold text-primary-600">
+          <span className="text-2xl font-bold text-primary-700 dark:text-primary-400">
             {formatPrice(product.price)}
           </span>
           {product.stock > 0 && product.stock <= 10 && (

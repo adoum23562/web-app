@@ -22,7 +22,6 @@ export default function CategoriesPage() {
         setLoading(false);
       }
     };
-
     fetchCategories();
   }, []);
 
@@ -37,20 +36,20 @@ export default function CategoriesPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex justify-center items-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
+      <div role="status" aria-live="polite" aria-label="Chargement des catégories" className="min-h-screen flex justify-center items-center">
+        <div aria-hidden="true" className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600" />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12">
+    <div className="min-h-screen bg-gray-50 dark:bg-dark-bg py-12">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-4">
+          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
             Toutes les Catégories
           </h1>
-          <p className="text-lg text-gray-600">
+          <p className="text-lg text-gray-700 dark:text-gray-300">
             Explorez nos {categories.length} catégories de produits
           </p>
         </div>
@@ -63,14 +62,14 @@ export default function CategoriesPage() {
             >
               <Card hover className="h-full cursor-pointer group">
                 <div className="text-center">
-                  <div className="text-7xl mb-4">
+                  <div className="text-7xl mb-4" aria-hidden="true">
                     {categoryIcons[category.slug] || '📦'}
                   </div>
-                  <h2 className="text-2xl font-bold text-gray-800 mb-3 group-hover:text-primary-600 transition-colors">
+                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-3 group-hover:text-primary-700 dark:group-hover:text-primary-400 transition-colors">
                     {category.name}
                   </h2>
                   {category.description && (
-                    <p className="text-gray-600">
+                    <p className="text-gray-700 dark:text-gray-300">
                       {category.description}
                     </p>
                   )}

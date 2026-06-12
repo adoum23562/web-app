@@ -67,6 +67,7 @@ CREATE TABLE IF NOT EXISTS orders (
   total_amount DECIMAL(10, 2) NOT NULL CHECK (total_amount >= 0),
   status VARCHAR(50) DEFAULT 'pending' CHECK (status IN ('pending', 'confirmed', 'processing', 'shipped', 'delivered', 'cancelled')),
   payment_status VARCHAR(50) DEFAULT 'unpaid' CHECK (payment_status IN ('unpaid', 'paid', 'refunded')),
+  access_token UUID NOT NULL DEFAULT uuid_generate_v4(),
   notes TEXT,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
@@ -75,6 +76,7 @@ CREATE TABLE IF NOT EXISTS orders (
 CREATE INDEX idx_orders_customer ON orders(customer_id);
 CREATE INDEX idx_orders_status ON orders(status);
 CREATE INDEX idx_orders_number ON orders(order_number);
+CREATE INDEX idx_orders_access_token ON orders(access_token);
 
 -- ============================================
 -- Table: order_items
@@ -142,16 +144,9 @@ ALTER TABLE order_items ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Enable read access for all users" ON categories FOR SELECT USING (true);
 CREATE POLICY "Enable read access for all users" ON products FOR SELECT USING (is_active = true);
 
--- Customers can read their own data
-CREATE POLICY "Customers can view own data" ON customers FOR SELECT USING (true);
-
--- Orders policies
-CREATE POLICY "Enable read access for all users" ON orders FOR SELECT USING (true);
-CREATE POLICY "Enable insert for all users" ON orders FOR INSERT WITH CHECK (true);
-
--- Order items policies
-CREATE POLICY "Enable read access for all users" ON order_items FOR SELECT USING (true);
-CREATE POLICY "Enable insert for all users" ON order_items FOR INSERT WITH CHECK (true);
+-- Customer and order data is accessed only through server API routes
+-- using SUPABASE_SERVICE_ROLE_KEY. Do not expose public RLS policies
+-- for customers, orders, or order_items.
 
 -- ============================================
 -- Comments

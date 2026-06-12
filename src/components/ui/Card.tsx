@@ -5,6 +5,7 @@ interface CardProps {
   children: ReactNode;
   className?: string;
   hover?: boolean;
+  glass?: boolean;
   padding?: 'none' | 'sm' | 'md' | 'lg';
 }
 
@@ -12,6 +13,7 @@ export default function Card({
   children,
   className,
   hover = false,
+  glass = false,
   padding = 'md',
 }: CardProps) {
   const paddingSizes = {
@@ -24,8 +26,11 @@ export default function Card({
   return (
     <div
       className={cn(
-        'bg-white rounded-lg border border-gray-200 shadow-sm',
-        hover && 'transition-all duration-200 hover:shadow-md hover:border-gray-300',
+        'rounded-2xl transition-all duration-300',
+        glass 
+          ? 'glass' 
+          : 'bg-white dark:bg-dark-card border border-gray-200/50 dark:border-dark-border shadow-soft',
+        hover && 'hover:-translate-y-1 hover:shadow-xl dark:hover:shadow-glow/20 hover:border-primary-500/30 dark:hover:border-primary-500/30',
         paddingSizes[padding],
         className
       )}

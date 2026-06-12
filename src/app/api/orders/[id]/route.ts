@@ -1,12 +1,21 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { supabase } from '@/lib/supabase';
+import { getSupabaseAdmin } from '@/lib/supabase';
 
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const supabase = getSupabaseAdmin();
     const { id } = await params;
+    const token = request.nextUrl.searchParams.get('token');
+
+    if (!token) {
+      return NextResponse.json(
+        { error: 'Order access token is required' },
+        { status: 401 }
+      );
+    }
 
     const { data, error } = await supabase
       .from('orders')
@@ -16,6 +25,7 @@ export async function GET(
         order_items(*, products(name, image_url, slug))
       `)
       .eq('id', id)
+      .eq('access_token', token)
       .single();
 
     if (error) {

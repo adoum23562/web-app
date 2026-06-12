@@ -103,20 +103,20 @@ export default function ProductsPage() {
   const totalPages = Math.ceil(total / limit);
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <div className="min-h-screen bg-gray-50 dark:bg-dark-bg py-8">
       <div className="container mx-auto px-4">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-4xl font-bold text-gray-800 mb-2">
+          <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">
             Nos Produits
           </h1>
-          <p className="text-gray-600">
+          <p className="text-gray-700 dark:text-gray-300">
             Découvrez notre sélection de {total} produits de qualité
           </p>
         </div>
 
         {/* Filters */}
-        <div className="bg-white rounded-lg shadow-sm p-6 mb-8">
+        <div className="bg-white dark:bg-dark-card rounded-lg shadow-sm p-6 mb-8 border border-gray-200/50 dark:border-dark-border">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {/* Search */}
             <form onSubmit={handleSearch} className="md:col-span-1">
@@ -168,8 +168,8 @@ export default function ProductsPage() {
 
         {/* Loading State */}
         {loading && (
-          <div className="flex justify-center items-center py-20">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
+          <div role="status" aria-live="polite" aria-label="Chargement des produits" className="flex justify-center items-center py-20">
+            <div aria-hidden="true" className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600" />
           </div>
         )}
 
@@ -181,7 +181,7 @@ export default function ProductsPage() {
             {/* Pagination */}
             {totalPages > 1 && (
               <div className="mt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-                <p className="text-gray-600">
+                <p className="text-gray-700 dark:text-gray-300">
                   Page {currentPage} sur {totalPages} ({total} produits au total)
                 </p>
                 <div className="flex gap-2">

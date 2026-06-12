@@ -1,9 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { supabase } from '@/lib/supabase';
+import { randomUUID } from 'crypto';
+import { getSupabaseAdmin } from '@/lib/supabase';
 import { generateOrderNumber } from '@/lib/utils';
 
 export async function POST(request: NextRequest) {
   try {
+    const supabase = getSupabaseAdmin();
     const body = await request.json();
     const { customerInfo, items } = body;
 
@@ -44,8 +46,7 @@ export async function POST(request: NextRequest) {
 
     if (existingCustomer) {
       // Update existing customer
-      const { data: updatedCustomer, error: updateError } = await supabase
-        .from('customers')
+      const { data: updatedCustomer, error: updateError } = await (supabase.from('customers') as any)
         .update({ name, phone, address, city })
         .eq('id', existingCustomer.id)
         .select()
@@ -125,6 +126,7 @@ export async function POST(request: NextRequest) {
 
     // Generate order number
     const orderNumber = generateOrderNumber();
+    const accessToken = randomUUID();
 
     // Create order
     const { data: order, error: orderError } = await supabase
@@ -135,6 +137,7 @@ export async function POST(request: NextRequest) {
         total_amount: totalAmount,
         status: 'pending',
         payment_status: 'unpaid',
+        access_token: accessToken,
         notes: notes || null,
       })
       .select()
@@ -192,6 +195,7 @@ export async function POST(request: NextRequest) {
         order_number: order.order_number,
         total_amount: order.total_amount,
         status: order.status,
+        access_token: accessToken,
         created_at: order.created_at,
       },
     });
@@ -204,31 +208,12 @@ export async function POST(request: NextRequest) {
   }
 }
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
-    const searchParams = request.nextUrl.searchParams;
-    const customerId = searchParams.get('customer_id');
-
-    let query = supabase
-      .from('orders')
-      .select('*, customers(name, email), order_items(*, products(name, image_url))')
-      .order('created_at', { ascending: false });
-
-    if (customerId) {
-      query = query.eq('customer_id', customerId);
-    }
-
-    const { data, error } = await query;
-
-    if (error) {
-      console.error('Supabase error:', error);
-      return NextResponse.json(
-        { error: 'Failed to fetch orders' },
-        { status: 500 }
-      );
-    }
-
-    return NextResponse.json({ orders: data || [] });
+    return NextResponse.json(
+      { error: 'Orders listing is not public' },
+      { status: 405 }
+    );
   } catch (error) {
     console.error('API error:', error);
     return NextResponse.json(
