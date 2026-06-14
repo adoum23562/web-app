@@ -83,16 +83,16 @@ export default function Header() {
 
             {/* Desktop Actions */}
             <div className="hidden md:flex items-center space-x-2">
-              <button aria-label="Rechercher" className="p-2 text-gray-600 hover:text-primary-600 dark:text-gray-300 dark:hover:text-primary-400 transition-colors rounded-full hover:bg-gray-100 dark:hover:bg-dark-border/50">
+              <Link href="/products" aria-label="Rechercher" className="p-2 text-gray-600 hover:text-primary-600 dark:text-gray-300 dark:hover:text-primary-400 transition-colors rounded-full hover:bg-gray-100 dark:hover:bg-dark-border/50">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
-              </button>
-              <button aria-label="Mon compte" className="p-2 text-gray-600 hover:text-primary-600 dark:text-gray-300 dark:hover:text-primary-400 transition-colors rounded-full hover:bg-gray-100 dark:hover:bg-dark-border/50">
+              </Link>
+              <Link href="/cart" aria-label="Mon compte" className="p-2 text-gray-600 hover:text-primary-600 dark:text-gray-300 dark:hover:text-primary-400 transition-colors rounded-full hover:bg-gray-100 dark:hover:bg-dark-border/50">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                 </svg>
-              </button>
+              </Link>
               
               <div className="h-6 w-px bg-gray-200 dark:bg-white/10 mx-2" />
 
@@ -170,19 +170,29 @@ export default function Header() {
         </nav>
 
         <div className="mt-auto pb-12 flex items-center space-x-6 border-t border-gray-200 dark:border-dark-border pt-6">
-          <button aria-label="Rechercher" className="flex items-center space-x-3 text-lg font-bold text-gray-900 dark:text-white">
+          <Link
+            href="/products"
+            aria-label="Rechercher"
+            className="flex items-center space-x-3 text-lg font-bold text-gray-900 dark:text-white hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
+            onClick={() => setMobileMenuOpen(false)}
+          >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
             <span>Rechercher</span>
-          </button>
+          </Link>
           <div className="h-6 w-px bg-gray-200 dark:bg-dark-border" />
-          <button aria-label="Mon compte" className="flex items-center space-x-3 text-lg font-bold text-gray-900 dark:text-white">
+          <Link
+            href="/cart"
+            aria-label="Mon compte"
+            className="flex items-center space-x-3 text-lg font-bold text-gray-900 dark:text-white hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
+            onClick={() => setMobileMenuOpen(false)}
+          >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
             </svg>
             <span>Compte</span>
-          </button>
+          </Link>
         </div>
       </div>
     </>
