@@ -24,10 +24,10 @@ export default function PrivacyPage() {
               <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">2. Collecte des données</h2>
               <p className="mb-4">Nous collectons les informations suivantes lors de votre utilisation de nos services :</p>
               <ul className="list-disc pl-6 space-y-2">
-                <li>Informations d'identification (Nom, Prénom)</li>
+                <li>Informations d&apos;identification (Nom, Prénom)</li>
                 <li>Coordonnées (Adresse e-mail, Numéro de téléphone)</li>
                 <li>Informations de livraison (Adresse postale, Ville, Secteur)</li>
-                <li>Historique de vos commandes et préférences d'achat</li>
+                <li>Historique de vos commandes et préférences d&apos;achat</li>
               </ul>
             </section>
 
@@ -36,7 +36,7 @@ export default function PrivacyPage() {
               <p className="mb-4">Vos données sont utilisées exclusivement pour :</p>
               <ul className="list-disc pl-6 space-y-2">
                 <li>Traiter et expédier vos commandes dans les meilleurs délais</li>
-                <li>Communiquer avec vous concernant l'état de vos livraisons</li>
+                <li>Communiquer avec vous concernant l&apos;état de vos livraisons</li>
                 <li>Améliorer notre service client et personnaliser votre expérience</li>
                 <li>Vous envoyer des offres promotionnelles (uniquement si vous y avez consenti)</li>
               </ul>
@@ -52,7 +52,7 @@ export default function PrivacyPage() {
             <section>
               <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">5. Partage des données</h2>
               <p>
-                Rwanda Market ne vend ni ne loue vos informations personnelles à des tiers. Nous partageons vos données uniquement avec nos partenaires logistiques strictement dans le but d'assurer la livraison de vos colis.
+                Rwanda Market ne vend ni ne loue vos informations personnelles à des tiers. Nous partageons vos données uniquement avec nos partenaires logistiques strictement dans le but d&apos;assurer la livraison de vos colis.
               </p>
             </section>
 

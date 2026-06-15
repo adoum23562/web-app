@@ -165,7 +165,7 @@ export default function CartPage() {
             {/* Clear Cart */}
             <div className="flex justify-end">
               {confirmClear ? (
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-3" role="alertdialog" aria-live="assertive" aria-label="Confirmer la suppression du panier">
                   <span className="text-sm text-gray-700 dark:text-gray-300">Vider le panier ?</span>
                   <Button
                     size="sm"

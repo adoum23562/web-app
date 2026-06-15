@@ -221,13 +221,253 @@ INSERT INTO products (name, slug, description, price, image_url, category_id, st
   40
 );
 
+-- Électronique (nouveaux)
+INSERT INTO products (name, slug, description, price, image_url, category_id, stock) VALUES
+(
+  'Samsung Galaxy Tab A9+ 10.9"',
+  'samsung-galaxy-tab-a9-plus',
+  '128GB WiFi, Écran TFT 10.9", Android 13',
+  380000,
+  'https://images.unsplash.com/photo-1561154464-82e9adf32764?w=800',
+  (SELECT id FROM categories WHERE slug = 'electronique'),
+  18
+),
+(
+  'Smart TV Samsung 43" 4K UHD',
+  'smart-tv-samsung-43-4k',
+  'HDR10+, Tizen OS, WiFi intégré',
+  520000,
+  'https://images.unsplash.com/photo-1593784991095-a205069470b6?w=800',
+  (SELECT id FROM categories WHERE slug = 'electronique'),
+  12
+),
+(
+  'Appareil Photo Sony Alpha ZV-E10',
+  'sony-alpha-zv-e10',
+  '24.2MP, Vidéo 4K, Objectif 16-50mm',
+  780000,
+  'https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=800',
+  (SELECT id FROM categories WHERE slug = 'electronique'),
+  8
+),
+(
+  'Chargeur Solaire Portable 30000mAh',
+  'chargeur-solaire-portable-30000mah',
+  '3 ports USB, Panneau solaire intégré',
+  35000,
+  'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800',
+  (SELECT id FROM categories WHERE slug = 'electronique'),
+  35
+);
+
+-- Mode (nouveaux)
+INSERT INTO products (name, slug, description, price, image_url, category_id, stock) VALUES
+(
+  'Umushanana Traditionnel Rwandais',
+  'umushanana-traditionnel-rwandais',
+  'Tissu wax premium, Taille unique ajustable',
+  55000,
+  'https://images.unsplash.com/photo-1594938298603-c8148c4b4357?w=800',
+  (SELECT id FROM categories WHERE slug = 'mode'),
+  30
+),
+(
+  'Veste en Denim Homme Oversize',
+  'veste-denim-homme-oversize',
+  'Coton 100%, Disponible S-XXL',
+  42000,
+  'https://images.unsplash.com/photo-1544441893-675973e31985?w=800',
+  (SELECT id FROM categories WHERE slug = 'mode'),
+  45
+),
+(
+  'Sandales Cuir Artisanales Femme',
+  'sandales-cuir-artisanales-femme',
+  'Fabriquées localement, Semelle confort',
+  28000,
+  'https://images.unsplash.com/photo-1603487742131-4160ec999306?w=800',
+  (SELECT id FROM categories WHERE slug = 'mode'),
+  55
+),
+(
+  'Sac à Dos Étudiant 30L',
+  'sac-dos-etudiant-30l',
+  'Polyester résistant, Compartiment PC 15"',
+  22000,
+  'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=800',
+  (SELECT id FROM categories WHERE slug = 'mode'),
+  80
+);
+
+-- Maison & Jardin (nouveaux)
+INSERT INTO products (name, slug, description, price, image_url, category_id, stock) VALUES
+(
+  'Set de Cadres Photo Muraux (lot de 3)',
+  'set-cadres-photo-muraux-lot-3',
+  'Bois naturel, 20x25cm',
+  18000,
+  'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?w=800',
+  (SELECT id FROM categories WHERE slug = 'maison-jardin'),
+  60
+),
+(
+  'Batterie de Cuisine 12 pièces',
+  'batterie-cuisine-12-pieces',
+  'Aluminium antiadhésif, Tous feux',
+  95000,
+  'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800',
+  (SELECT id FROM categories WHERE slug = 'maison-jardin'),
+  25
+),
+(
+  'Rideau Occultant 140x260cm',
+  'rideau-occultant-140x260cm',
+  'Isolation thermique, Coloris au choix',
+  32000,
+  'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800',
+  (SELECT id FROM categories WHERE slug = 'maison-jardin'),
+  50
+);
+
+-- Alimentation (nouveaux)
+INSERT INTO products (name, slug, description, price, image_url, category_id, stock) VALUES
+(
+  'Huile de Palme Rouge Locale 5L',
+  'huile-palme-rouge-locale-5l',
+  'Pressée à froid, Production rwandaise',
+  12000,
+  'https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=800',
+  (SELECT id FROM categories WHERE slug = 'alimentation'),
+  100
+),
+(
+  'Farine de Sorgho Bio 2kg',
+  'farine-sorgho-bio-2kg',
+  'Sans gluten, Agriculture locale certifiée',
+  4500,
+  'https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?w=800',
+  (SELECT id FROM categories WHERE slug = 'alimentation'),
+  150
+),
+(
+  'Bananes Séchées du Rwanda 500g',
+  'bananes-sechees-rwanda-500g',
+  'Sans sucre ajouté, Snack naturel',
+  7000,
+  'https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=800',
+  (SELECT id FROM categories WHERE slug = 'alimentation'),
+  200
+);
+
+-- Beauté & Santé (nouveaux)
+INSERT INTO products (name, slug, description, price, image_url, category_id, stock) VALUES
+(
+  'Huile de Coco Vierge 250ml',
+  'huile-coco-vierge-250ml',
+  '100% naturelle, Multi-usage peau et cheveux',
+  14000,
+  'https://images.unsplash.com/photo-1621155346337-1d19476ba7d6?w=800',
+  (SELECT id FROM categories WHERE slug = 'beaute-sante'),
+  120
+),
+(
+  'Sérum Vitamine C 30ml',
+  'serum-vitamine-c-30ml',
+  'Anti-taches, Éclat du teint, Formule légère',
+  32000,
+  'https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=800',
+  (SELECT id FROM categories WHERE slug = 'beaute-sante'),
+  75
+),
+(
+  'Lotion Corporelle au Karité 400ml',
+  'lotion-corporelle-karite-400ml',
+  'Hydratation 48h, Parfum fleuri',
+  16000,
+  'https://images.unsplash.com/photo-1556228720-195a672e8a03?w=800',
+  (SELECT id FROM categories WHERE slug = 'beaute-sante'),
+  90
+);
+
+-- Sports & Loisirs (nouveaux)
+INSERT INTO products (name, slug, description, price, image_url, category_id, stock) VALUES
+(
+  'Corde à Sauter Speed Rope',
+  'corde-sauter-speed-rope',
+  'Câble acier, Poignées ergonomiques',
+  8500,
+  'https://images.unsplash.com/photo-1434682881908-b43d0467b798?w=800',
+  (SELECT id FROM categories WHERE slug = 'sports-loisirs'),
+  100
+),
+(
+  'Gourde Isotherme Sport 750ml',
+  'gourde-isotherme-sport-750ml',
+  'Inox 18/8, Maintien 24h froid / 12h chaud',
+  18000,
+  'https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=800',
+  (SELECT id FROM categories WHERE slug = 'sports-loisirs'),
+  85
+),
+(
+  'Sac de Sport 40L',
+  'sac-sport-40l',
+  'Compartiment chaussures séparé, Bandoulière amovible',
+  25000,
+  'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=800',
+  (SELECT id FROM categories WHERE slug = 'sports-loisirs'),
+  65
+);
+
 -- ============================================
--- Sample Customer (for testing)
+-- Sample Customers (for testing)
 -- ============================================
 
 INSERT INTO customers (email, name, phone, address, city) VALUES
-('test@example.com', 'Jean Uwimana', '+250788123456', 'KG 15 Ave', 'Kigali')
+('test@example.com', 'Jean Uwimana', '+250788123456', 'KG 15 Ave', 'Kigali'),
+('marie.mukamana@example.com', 'Marie Mukamana', '+250722654321', 'KN 3 Rd', 'Kigali'),
+('paul.habimana@example.com', 'Paul Habimana', '+250788987654', 'KG 33 Ave', 'Kigali'),
+('alice.nzeyimana@example.com', 'Alice Nzeyimana', '+250722111222', 'KN 12 St', 'Kigali')
 ON CONFLICT (email) DO NOTHING;
+
+-- ============================================
+-- Sample Orders (demo with different statuses)
+-- ============================================
+
+INSERT INTO orders (order_number, customer_id, status, payment_status, total_amount, shipping_address) VALUES
+(
+  'ORD-2026001',
+  (SELECT id FROM customers WHERE email = 'test@example.com'),
+  'delivered',
+  'paid',
+  495000,
+  '{"name": "Jean Uwimana", "phone": "+250788123456", "address": "KG 15 Ave", "city": "Kigali", "sector": "Kimihurura"}'
+),
+(
+  'ORD-2026002',
+  (SELECT id FROM customers WHERE email = 'marie.mukamana@example.com'),
+  'shipped',
+  'paid',
+  107000,
+  '{"name": "Marie Mukamana", "phone": "+250722654321", "address": "KN 3 Rd", "city": "Kigali", "sector": "Nyarutarama"}'
+),
+(
+  'ORD-2026003',
+  (SELECT id FROM customers WHERE email = 'paul.habimana@example.com'),
+  'confirmed',
+  'unpaid',
+  35000,
+  '{"name": "Paul Habimana", "phone": "+250788987654", "address": "KG 33 Ave", "city": "Kigali", "sector": "Kacyiru"}'
+),
+(
+  'ORD-2026004',
+  (SELECT id FROM customers WHERE email = 'alice.nzeyimana@example.com'),
+  'pending',
+  'unpaid',
+  65000,
+  '{"name": "Alice Nzeyimana", "phone": "+250722111222", "address": "KN 12 St", "city": "Kigali", "sector": "Gisozi"}'
+)
+ON CONFLICT (order_number) DO NOTHING;
 
 -- ============================================
 -- Verification Queries

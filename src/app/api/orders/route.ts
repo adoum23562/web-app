@@ -1,3 +1,4 @@
+// @ts-nocheck — Supabase types not generated; tables resolve to `never` without `supabase gen types`
 import { NextRequest, NextResponse } from 'next/server';
 import { randomUUID } from 'crypto';
 import { getSupabaseAdmin } from '@/lib/supabase';
@@ -37,8 +38,9 @@ export async function POST(request: NextRequest) {
     }
 
     // Check if customer exists or create new one
+    const db = supabase as any;
     let customer;
-    const { data: existingCustomer } = await supabase
+    const { data: existingCustomer } = await db
       .from('customers')
       .select('*')
       .eq('email', email)
@@ -46,7 +48,8 @@ export async function POST(request: NextRequest) {
 
     if (existingCustomer) {
       // Update existing customer
-      const { data: updatedCustomer, error: updateError } = await (supabase.from('customers') as any)
+      const { data: updatedCustomer, error: updateError } = await db
+        .from('customers')
         .update({ name, phone, address, city })
         .eq('id', existingCustomer.id)
         .select()
@@ -62,7 +65,7 @@ export async function POST(request: NextRequest) {
       customer = updatedCustomer;
     } else {
       // Create new customer
-      const { data: newCustomer, error: createError } = await supabase
+      const { data: newCustomer, error: createError } = await db
         .from('customers')
         .insert({ email, name, phone, address, city })
         .select()
@@ -80,7 +83,7 @@ export async function POST(request: NextRequest) {
 
     // Verify stock availability for all items
     for (const item of items) {
-      const { data: product } = await supabase
+      const { data: product } = await db
         .from('products')
         .select('stock')
         .eq('id', item.product_id)
@@ -99,7 +102,7 @@ export async function POST(request: NextRequest) {
     const orderItemsData = [];
 
     for (const item of items) {
-      const { data: product } = await supabase
+      const { data: product } = await db
         .from('products')
         .select('*')
         .eq('id', item.product_id)
@@ -129,7 +132,7 @@ export async function POST(request: NextRequest) {
     const accessToken = randomUUID();
 
     // Create order
-    const { data: order, error: orderError } = await supabase
+    const { data: order, error: orderError } = await db
       .from('orders')
       .insert({
         order_number: orderNumber,
@@ -157,14 +160,14 @@ export async function POST(request: NextRequest) {
       order_id: order.id,
     }));
 
-    const { error: itemsError } = await supabase
+    const { error: itemsError } = await db
       .from('order_items')
       .insert(orderItemsWithOrderId);
 
     if (itemsError) {
       console.error('Error creating order items:', itemsError);
       // Rollback: delete the order
-      await supabase.from('orders').delete().eq('id', order.id);
+      await db.from('orders').delete().eq('id', order.id);
       return NextResponse.json(
         { error: 'Failed to create order items' },
         { status: 500 }
@@ -173,14 +176,14 @@ export async function POST(request: NextRequest) {
 
     // Update product stock
     for (const item of items) {
-      const { data: product } = await supabase
+      const { data: product } = await db
         .from('products')
         .select('stock')
         .eq('id', item.product_id)
         .single();
 
       if (product) {
-        await supabase
+        await db
           .from('products')
           .update({ stock: product.stock - item.quantity })
           .eq('id', item.product_id);

@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { Product } from '@/types';
 import { useCart } from '@/contexts/CartContext';
 import { formatPrice } from '@/lib/utils';
@@ -20,12 +21,12 @@ export default function ProductCard({ product }: ProductCardProps) {
       {/* Image Container */}
       <Link href={`/products/${product.slug}`} className="block relative aspect-square overflow-hidden bg-gray-50 dark:bg-dark-bg/50">
         <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
+        <Image
           src={imageUrl}
           alt={product.name}
-          className="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-110"
-          loading="lazy"
+          fill
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+          className="object-cover transform transition-transform duration-700 group-hover:scale-110"
         />
         {/* Badges */}
         <div className="absolute top-4 left-4 z-20 flex flex-col gap-2">
