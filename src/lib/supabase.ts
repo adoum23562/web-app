@@ -8,7 +8,12 @@ function getSupabaseConfig() {
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
   if (!supabaseUrl || !supabaseAnonKey) {
-    throw new Error('Missing Supabase public environment variables');
+    // Return placeholder values during static build (CI without secrets).
+    // All Supabase calls will fail gracefully at runtime when real env vars are missing.
+    return {
+      supabaseUrl: supabaseUrl || 'https://placeholder.supabase.co',
+      supabaseAnonKey: supabaseAnonKey || 'placeholder-anon-key',
+    };
   }
 
   return { supabaseUrl, supabaseAnonKey };
